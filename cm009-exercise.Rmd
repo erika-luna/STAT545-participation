@@ -117,9 +117,9 @@ email %>%
 
 ```{r}
 n <- 100
-FILL_THIS_IN(label = FILL_THIS_IN,
-             FILL_THIS_IN = rnorm(n),
-             FILL_THIS_IN)
+tibble(label = "Sample A", 
+             x = rnorm(n), #rnorm is random normal
+             y = x + rnorm(n)) 
 ```
 
 
@@ -145,5 +145,6 @@ experiment <- tibble(
   measurement_1 = runif(6),
   measurement_2 = runif(6)
 )
-experiment %>% expand(name, trt, rep)
+experiment %>% complete(nesting(name, trt), rep) #complete gives all possible combinations.
+                                                #nesting inside complete to pair name and treatment. 
 ```
