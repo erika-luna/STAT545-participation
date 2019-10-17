@@ -8,6 +8,50 @@ output:
 
 
 
+
+```r
+library(ggplot2)
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 3.5.2
+```
+
+```r
+library(gapminder)
+library(tidyverse)
+```
+
+```
+## ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.2.1 ──
+```
+
+```
+## ✔ tibble  2.1.3     ✔ purrr   0.2.5
+## ✔ tidyr   1.0.0     ✔ dplyr   0.8.3
+## ✔ readr   1.1.1     ✔ stringr 1.3.1
+## ✔ tibble  2.1.3     ✔ forcats 0.3.0
+```
+
+```
+## Warning: package 'tibble' was built under R version 3.5.2
+```
+
+```
+## Warning: package 'tidyr' was built under R version 3.5.2
+```
+
+```
+## Warning: package 'dplyr' was built under R version 3.5.2
+```
+
+```
+## ── Conflicts ──────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+```
+
+
 ## Motivating the need for factors in R
 
 ### Activity 1: Using Factors for plotting 
@@ -27,20 +71,18 @@ Function `case_when()` is a tidier way to vectorise multiple `if_else()` stateme
 
 ```r
 gapminder %>% 
-  filter(year == FILL_IN_THIS) %>% 
-  mutate(life_level = case_when(lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                TRUE ~ FILL_IN_THIS)) %>% 
-  ggplot() + geom_boxplot(aes(x = FILL_IN_THIS, y = FILL_IN_THIS)) +
+  filter(year == 1997) %>% 
+  mutate(life_level = case_when(lifeExp < 23 ~ "very low",
+                                lifeExp < 48 ~ "low",
+                                lifeExp < 59 ~ "moderate",
+                                lifeExp < 70 ~ "high",
+                                TRUE ~ "very high")) %>% 
+  ggplot() + geom_boxplot(aes(x = life_level, y = gdpPercap)) +
   labs(y = "GDP per capita, $", x= "Life expectancy level, years") +
   theme_bw() 
 ```
 
-```
-## Error in gapminder %>% filter(year == FILL_IN_THIS) %>% mutate(life_level = case_when(lifeExp < : could not find function "%>%"
-```
+![](cm012-exercise_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 Do you notice anything odd/wrong about the graph?
 
@@ -56,24 +98,20 @@ We can make a few observations:
 
 ```r
 gapminder %>% 
-  filter(year == FILL_IN_THIS) %>% 
-  mutate(life_level = case_when(lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                lifeExp < FILL_IN_THIS ~ FILL_IN_THIS,
-                                TRUE ~ FILL_IN_THIS) ,
-                      levels = FILL_IN_THIS)) %>% %>% 
-  ggplot() + geom_boxplot(aes(x = FILL_IN_THIS, y = FILL_IN_THIS)) +
+  filter(year == 1997) %>% 
+  mutate(life_level = factor(case_when(lifeExp < 23 ~ "very low",
+                                lifeExp < 48 ~ "low",
+                                lifeExp < 59 ~ "moderate",
+                                lifeExp < 70 ~ "high",
+                                TRUE ~ "very high") ,
+                      levels = c("very low", "low", "moderate", "high", "very high"))) %>%
+  ggplot() + geom_boxplot(aes(x = life_level, y = gdpPercap)) +
   labs(y = "GDP per capita, $", x= "Life expectancy level, years") +
+  scale_x_discrete(drop=FALSE) +
   theme_bw() 
 ```
 
-```
-## Error: <text>:8:45: unexpected ')'
-## 7:                                 TRUE ~ FILL_IN_THIS) ,
-## 8:                       levels = FILL_IN_THIS))
-##                                                ^
-```
+![](cm012-exercise_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ## Inspecting factors (activity 2)
 
@@ -88,6 +126,37 @@ Use functions such as `str()`, `levels()`, `nlevels()` and `class()` to answer t
 - What integer is used to represent factor "Asia"?
 
 
+```r
+str(gapminder$continent)
+```
+
+```
+##  Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...
+```
+
+```r
+levels(gapminder$continent)
+```
+
+```
+## [1] "Africa"   "Americas" "Asia"     "Europe"   "Oceania"
+```
+
+```r
+nlevels(gapminder$continent)
+```
+
+```
+## [1] 5
+```
+
+```r
+class(gapminder$continent)
+```
+
+```
+## [1] "factor"
+```
 
 ### Exploring `gapminder$country` (activity 2.2)
 
@@ -99,6 +168,39 @@ Answer the following questions:
 - Filter `gapminder` dataset by 5 countries of your choice. How many levels are in your filtered dataset?
 
 
+```r
+nlevels(gapminder$country)
+```
+
+```
+## [1] 142
+```
+
+```r
+filtered <- gapminder %>% 
+  filter(country == "Canada" | country == "Mexico" | country == "Brazil" |
+           country == "Spain" | country == "Portugal")
+
+filtered$country %>% 
+  nlevels()
+```
+
+```
+## [1] 142
+```
+
+```r
+h_countries = c("Egypt", "Haiti", "Romania", "Thailand", "Venezuela")
+gap = gapminder %>% 
+  filter(country %in% h_countries)
+
+gap$country %>% 
+  nlevels()
+```
+
+```
+## [1] 142
+```
 
 ## Dropping unused levels
 
@@ -108,12 +210,8 @@ The function `droplevels()` operates on all the factors in a data frame or on a 
 
 
 ```r
-h_gap_dropped <- FILL_IN_THIS %>% 
+h_gap_dropped <- gap %>% 
   droplevels()
-```
-
-```
-## Error in FILL_IN_THIS %>% droplevels(): could not find function "%>%"
 ```
 
 ## Changing the order of levels
@@ -123,6 +221,21 @@ Let's say we wanted to re-order the levels of a factor using a new metric - say,
 We should first produce a frequency table as a tibble using `dplyr::count()`:
 
 
+```r
+gapminder %>% 
+  count(continent)
+```
+
+```
+## # A tibble: 5 x 2
+##   continent     n
+##   <fct>     <int>
+## 1 Africa      624
+## 2 Americas    300
+## 3 Asia        396
+## 4 Europe      360
+## 5 Oceania      24
+```
 
 The table is nice, but it would be better to visualize the data.
 Factors are most useful/helpful when plotting data.
@@ -130,17 +243,15 @@ So let's first plot this:
 
 
 ```r
-FILL_IN_THIS %>%
+gapminder %>%
   ggplot() +
-  geom_bar(aes(FILL_IN_THIS)) +
+  geom_bar(aes(continent)) +
   coord_flip() +
   theme_bw() +
   ylab("Number of entries") + xlab("Continent")
 ```
 
-```
-## Error in FILL_IN_THIS %>% ggplot(): could not find function "%>%"
-```
+![](cm012-exercise_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 Think about how levels are normally ordered. 
 It turns out that by default, R always sorts levels in alphabetical order. 
@@ -157,15 +268,13 @@ For instance ,
 ```r
 gapminder %>%
   ggplot() +
-  geom_bar(aes(FILL_IN_THIS)) +
+  geom_bar(aes(fct_infreq(continent))) +
   coord_flip()+
   theme_bw() +
   ylab("Number of entries") + xlab("Continent")
 ```
 
-```
-## Error in gapminder %>% ggplot(): could not find function "%>%"
-```
+![](cm012-exercise_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 Section 9.6 of Jenny Bryan's [notes](https://stat545.com/factors-boss.html#reorder-factors) has some helpful examples.
 
@@ -178,15 +287,13 @@ Section 9.6 of Jenny Bryan's [notes](https://stat545.com/factors-boss.html#reord
 ##  default summarizing function is median()
 gapminder %>%
   ggplot() +
-  geom_bar(aes(FILL_IN_THIS)) +
+  geom_bar(aes(fct_reorder(continent, lifeExp, max))) +
   coord_flip()+
   theme_bw() +
   xlab("Continent") + ylab("Number of entries") 
 ```
 
-```
-## Error in gapminder %>% ggplot(): could not find function "%>%"
-```
+![](cm012-exercise_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Use `fct_reorder2()` when you have a line chart of a quantitative x against another quantitative y and your factor provides the color. 
 
@@ -200,25 +307,24 @@ ggplot(h_gap, aes(x = year, y = lifeExp,
 ```
 
 ```
-## Error in ggplot(h_gap, aes(x = year, y = lifeExp, color = FILL_IN_THIS)): could not find function "ggplot"
+## Error in ggplot(h_gap, aes(x = year, y = lifeExp, color = FILL_IN_THIS)): object 'h_gap' not found
 ```
 
 ## Change order of the levels manually
 
-This might be useful if you are preparing a report for say, the state of affairs in Africa.
+This might be useful if you are preparing a report for say, the state of affairs in Oceania.
 
 
 ```r
 gapminder %>%
   ggplot() +
-  geom_bar(aes(FILL_IN_THIS)) +
+  geom_bar(aes(fct_relevel(continent, "Oceania", "Europe"))) +
   coord_flip()+
-  theme_bw() 
+  theme_bw() +
+  xlab("Continent") + ylab("Number of entries") 
 ```
 
-```
-## Error in gapminder %>% ggplot(): could not find function "%>%"
-```
+![](cm012-exercise_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 More details on reordering factor levels by hand can be found [here] https://forcats.tidyverse.org/reference/fct_relevel.html
 
 ### Recoding factors
@@ -228,6 +334,16 @@ For instance, if you had levels called "blk" and "brwn", you would rather they b
 Lets recode `Oceania` and the `Americas` in the graph above as abbreviations `OCN` and `AME` respectively using the function `fct_recode()`.
 
 
+```r
+gapminder %>%
+  ggplot() +
+  geom_bar(aes(fct_recode(continent, "OCN" = "Oceania", "AME" = "Americas"))) +
+  coord_flip()+
+  theme_bw() +
+  xlab("Continent") + ylab("Number of entries") 
+```
+
+![](cm012-exercise_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 ## Grow a factor (OPTIONAL)
 

@@ -10,6 +10,13 @@ output:
 knitr::opts_chunk$set(error = TRUE)
 ```
 
+```{r}
+library(ggplot2)
+library(gapminder)
+library(tidyverse)
+```
+
+
 ## Motivating the need for factors in R
 
 ### Activity 1: Using Factors for plotting 
