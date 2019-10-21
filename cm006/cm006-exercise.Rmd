@@ -35,7 +35,7 @@ library(tidyverse)
 1. Make a data frame containing the columns `year`, `lifeExp`, `country` from the gapminder data, in that order.
 
 ```{r}
-select(gapminder, year, lifeExp, country)
+select(gapminder, year, lifeExp, country) #The first argument is the dataset, followed by the variables/columns.
 ```
 
 
@@ -43,23 +43,23 @@ select(gapminder, year, lifeExp, country)
 
 ```{r}
 # This will work:
-select(gapminder, country, continent, year, lifeExp)
+select(gapminder, country, continent, year, lifeExp) #We type every column we want to select.
 
 # Better way:
-select(gapminder, country:lifeExp)
+select(gapminder, country:lifeExp) #We use ":" to select the range of columns.
 ```
 
 
 3. Select all variables, except `lifeExp`.
 
 ```{r}
-select(gapminder, -lifeExp)
+select(gapminder, -lifeExp) #We use minus to select everything but this column.
 ```
 
 4. Put `continent` first. Hint: use the `everything()` function.
 
 ```{r}
-select(gapminder, continent, everything())
+select(gapminder, continent, everything()) #Selects every column with "everything()" and puts continent first.
 ```
 
 
@@ -67,7 +67,7 @@ select(gapminder, continent, everything())
 
 ```{r}
 # compare
-select(gapminder, cont = continent, everything())
+select(gapminder, cont = continent, everything()) #equal sign assigns a new name to the variable
 
 rename(gapminder, cont = continent)
 ```
@@ -78,7 +78,7 @@ rename(gapminder, cont = continent)
 1. Order by year.
 
 ```{r}
-arrange(gapminder, year)
+arrange(gapminder, year) #first argument is the dataset, followed by the variable.
 ```
 
 2. Order by year, in descending order.
@@ -105,7 +105,7 @@ This is how I could do it by *nesting* the two function calls:
 
 ```{r nesting functions example, eval = F}
 # Nesting function calls can be hard to read
-arrange(select(gapminder, year, lifeExp, country), year, lifeExp)
+arrange(select(gapminder, year, lifeExp, country), year, lifeExp) 
 ```
 
 Now using with pipes:
@@ -113,7 +113,7 @@ Now using with pipes:
 ```{r}
 # alter the below to include 2 "pipes"
 gapminder %>%
-  select(year, lifeExp, country) %>%
+  select(year, lifeExp, country) %>% #pipes are useful to combine functions step by step.
   arrange(year, lifeExp)
 
 #arrange(select(gapminder, year, lifeExp, country), year, lifeExp)
@@ -129,7 +129,7 @@ Return to guide at section 6.7.
 
 ```{r}
 gapminder %>%
-  filter(pop > 100000000)
+  filter(pop > 100000000) #filter will take everything specified in the argument. 
 ```
 
 2. Your turn: of those rows filtered from step 1., only take data from Asia.
@@ -137,18 +137,18 @@ gapminder %>%
 ```{r}
 gapminder %>%
   filter(pop > 100000000) %>% 
-  filter(continent == 'Asia')
+  filter(continent == 'Asia') 
 
 #or
 
 gapminder %>% 
-  filter(pop > 100000000 & continent == 'Asia')
+  filter(pop > 100000000 & continent == 'Asia') #instead of a pipe, we could use an "&"
 
 #or
 
 gapminder %>% 
   filter(pop > 100000000,
-         continent == 'Asia')
+         continent == 'Asia') #instead of a pipe or an "&", we could use a comma. 
 
 ```
 
@@ -169,7 +169,7 @@ Let's get:
 
 ```{r}
 gapminder %>%
-  mutate(gdpBill = gdpPercap*pop/1000000000) %>% 
+  mutate(gdpBill = gdpPercap*pop/1000000000) #%>%   mutate inserts a new column.
   #round(digits = 2))
 
 #round()
@@ -182,7 +182,7 @@ Try the same thing, but with `transmute` (drops all other variables).
 
 ```{r}
 gapminder %>%
-  transmute(gdpBill = gdpPercap*pop/1000000000))
+  transmute(gdpBill = gdpPercap*pop/1000000000) 
 
 #transmute creates a new column and then uses 'select' over that new column.
 ```
@@ -199,8 +199,8 @@ gapminder %>%
 Your turn: Make a new column called `cc` that pastes the country name followed by the continent, separated by a comma. (Hint: use the `paste` function with the `sep=", "` argument).
 
 ```{r}
-gapminder %>% 
-  mutate(cc = paste(, sep = ", "))
+gapminder %>%
+  mutate(cc = paste(country, continent, sep=", ")) #add a space after the comma
 ```
 
 These functions we've seen are called __vectorized functions__.
