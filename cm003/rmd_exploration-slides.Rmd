@@ -2,6 +2,7 @@
 title: "Tibble Exploration"
 output: ioslides_presentation
 ---
+<!--We open a new markdown document and select 'Presentation'. We c&p the code from the rmd_exploration.Rmd file-->
 
 <!--label chunks!, the options for the code chunk goes after "r" -->
 ```{r, load, warning=FALSE, echo=FALSE}

@@ -21,6 +21,6 @@ x <- gapminder
 Convert mtcars to a tibble, and wrap in datatable:
 
 ```{r}
-datatable(as_tibble(mtcars))
+datatable(as_tibble(mtcars)) #as_tibble will convert the mtcars dataframe dataset into a tibble.
 ```
 
