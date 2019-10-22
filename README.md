@@ -19,4 +19,4 @@ The following links will take you to the worksheet for each class:
 - [Class meeting 11](https://erika-luna.github.io/STAT545-participation/cm011/cm011-exercise.html)
 - [Class meeting 12](https://erika-luna.github.io/STAT545-participation/cm012/cm012-exercise.html)
 - [Class meeting 13](https://erika-luna.github.io/STAT545-participation/cm013/cm013-exercise.html)
-- [Class meeting 14](https://erika-luna.github.io/STAT545-participation/cm014/cm014-exercise.html)
+- [Class meeting 14](https://erika-luna.github.io/STAT545-participation/cm014/cm014-exercise.nb.html)
