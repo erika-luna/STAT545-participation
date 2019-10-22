@@ -1,5 +1,6 @@
 ---
 title: "cm010 Exercises: Tibble Joins"
+author: Erika Luna
 output: 
   html_document:
     keep_md: true
@@ -18,8 +19,12 @@ devtools::install_github("JoeyBernhardt/singer")
 Load required packages:
 
 
+```
+## Warning: package 'ggplot2' was built under R version 3.5.2
+```
 
 <!---The following chunk allows errors when knitting--->
+
 
 
 
@@ -34,20 +39,7 @@ The package `singer` comes with two smallish data frames about songs. Let's take
 ```
 
 ```
-## # A tibble: 22 x 3
-##    song                             artist_name      year
-##    <chr>                            <chr>           <int>
-##  1 Corduroy                         Pearl Jam        1994
-##  2 Grievance                        Pearl Jam        2000
-##  3 Stupidmop                        Pearl Jam        1994
-##  4 Present Tense                    Pearl Jam        1996
-##  5 MFC                              Pearl Jam        1998
-##  6 Lukin                            Pearl Jam        1996
-##  7 It's Lulu                        The Boo Radleys  1995
-##  8 Sparrow                          The Boo Radleys  1992
-##  9 Martin_ Doom! It's Seven O'Clock The Boo Radleys  1995
-## 10 Leaves And Sand                  The Boo Radleys  1993
-## # … with 12 more rows
+## Error in as_tibble(songs): could not find function "as_tibble"
 ```
 
 
@@ -59,23 +51,7 @@ The package `singer` comes with two smallish data frames about songs. Let's take
 ```
 
 ```
-## # A tibble: 14 x 4
-##    song                        artist_name   city        album             
-##    <chr>                       <chr>         <chr>       <chr>             
-##  1 Grievance                   Pearl Jam     Seattle, WA Binaural          
-##  2 Stupidmop                   Pearl Jam     Seattle, WA Vitalogy          
-##  3 Present Tense               Pearl Jam     Seattle, WA No Code           
-##  4 MFC                         Pearl Jam     Seattle, WA Live On Two Legs  
-##  5 Lukin                       Pearl Jam     Seattle, WA Seattle Washingto…
-##  6 Stuck On Amber              The Boo Radl… Liverpool,… Wake Up!          
-##  7 It's Lulu                   The Boo Radl… Liverpool,… Best Of           
-##  8 Sparrow                     The Boo Radl… Liverpool,… Everything's Alri…
-##  9 High as Monkeys             The Boo Radl… Liverpool,… Kingsize          
-## 10 Butterfly McQueen           The Boo Radl… Liverpool,… Giant Steps       
-## 11 My One and Only Love        Carly Simon   New York, … Moonlight Serenade
-## 12 It Was So Easy  (LP Versio… Carly Simon   New York, … No Secrets        
-## 13 I've Got A Crush On You     Carly Simon   New York, … Clouds In My Coff…
-## 14 "Manha De Carnaval (Theme … Carly Simon   New York, … Into White
+## Error in as_tibble(locations): could not find function "as_tibble"
 ```
 
 
@@ -88,22 +64,7 @@ time %>%
 ```
 
 ```
-## # A tibble: 13 x 3
-##    song                                               artist_name      year
-##    <chr>                                              <chr>           <int>
-##  1 Grievance                                          Pearl Jam        2000
-##  2 Stupidmop                                          Pearl Jam        1994
-##  3 Present Tense                                      Pearl Jam        1996
-##  4 MFC                                                Pearl Jam        1998
-##  5 Lukin                                              Pearl Jam        1996
-##  6 It's Lulu                                          The Boo Radleys  1995
-##  7 Sparrow                                            The Boo Radleys  1992
-##  8 High as Monkeys                                    The Boo Radleys  1998
-##  9 Butterfly McQueen                                  The Boo Radleys  1993
-## 10 My One and Only Love                               Carly Simon      2005
-## 11 It Was So Easy  (LP Version)                       Carly Simon      1972
-## 12 I've Got A Crush On You                            Carly Simon      1994
-## 13 "Manha De Carnaval (Theme from \"Black Orpheus\")" Carly Simon      2007
+## Error in semi_join(., album, by = c("song", "artist_name")): could not find function "semi_join"
 ```
 
 ```r
@@ -112,22 +73,7 @@ time %>%
 ```
 
 ```
-## # A tibble: 13 x 5
-##    song                     artist_name    year city       album           
-##    <chr>                    <chr>         <int> <chr>      <chr>           
-##  1 Grievance                Pearl Jam      2000 Seattle, … Binaural        
-##  2 Stupidmop                Pearl Jam      1994 Seattle, … Vitalogy        
-##  3 Present Tense            Pearl Jam      1996 Seattle, … No Code         
-##  4 MFC                      Pearl Jam      1998 Seattle, … Live On Two Legs
-##  5 Lukin                    Pearl Jam      1996 Seattle, … Seattle Washing…
-##  6 It's Lulu                The Boo Radl…  1995 Liverpool… Best Of         
-##  7 Sparrow                  The Boo Radl…  1992 Liverpool… Everything's Al…
-##  8 High as Monkeys          The Boo Radl…  1998 Liverpool… Kingsize        
-##  9 Butterfly McQueen        The Boo Radl…  1993 Liverpool… Giant Steps     
-## 10 My One and Only Love     Carly Simon    2005 New York,… Moonlight Seren…
-## 11 It Was So Easy  (LP Ver… Carly Simon    1972 New York,… No Secrets      
-## 12 I've Got A Crush On You  Carly Simon    1994 New York,… Clouds In My Co…
-## 13 "Manha De Carnaval (The… Carly Simon    2007 New York,… Into White
+## Error in inner_join(., album, by = c("song", "artist_name")): could not find function "inner_join"
 ```
 
 2. Go ahead and add the corresponding albums to the `time` tibble, being sure to preserve rows even if album info is not readily available.
@@ -139,20 +85,7 @@ time %>%
 ```
 
 ```
-## # A tibble: 22 x 5
-##    song                artist_name     year city        album              
-##    <chr>               <chr>          <int> <chr>       <chr>              
-##  1 Corduroy            Pearl Jam       1994 <NA>        <NA>               
-##  2 Grievance           Pearl Jam       2000 Seattle, WA Binaural           
-##  3 Stupidmop           Pearl Jam       1994 Seattle, WA Vitalogy           
-##  4 Present Tense       Pearl Jam       1996 Seattle, WA No Code            
-##  5 MFC                 Pearl Jam       1998 Seattle, WA Live On Two Legs   
-##  6 Lukin               Pearl Jam       1996 Seattle, WA Seattle Washington…
-##  7 It's Lulu           The Boo Radle…  1995 Liverpool,… Best Of            
-##  8 Sparrow             The Boo Radle…  1992 Liverpool,… Everything's Alrig…
-##  9 Martin_ Doom! It's… The Boo Radle…  1995 <NA>        <NA>               
-## 10 Leaves And Sand     The Boo Radle…  1993 <NA>        <NA>               
-## # … with 12 more rows
+## Error in left_join(., album, by = c("song", "artist_name")): could not find function "left_join"
 ```
 
 3. Which songs do we have "year", but not album info?
@@ -160,11 +93,11 @@ time %>%
 
 ```r
 time %>% 
-  FILL_THIS_IN(album, by = "song")
+  semi_join(album, by = "song")
 ```
 
 ```
-## Error in FILL_THIS_IN(., album, by = "song"): could not find function "FILL_THIS_IN"
+## Error in semi_join(., album, by = "song"): could not find function "semi_join"
 ```
 
 4. Which artists are in `time`, but not in `album`?
@@ -172,11 +105,11 @@ time %>%
 
 ```r
 time %>% 
-  anti_join(album, by = "FILL_THIS_IN")
+  anti_join(album, by = "artist_name")
 ```
 
 ```
-## `by` can't contain join column `FILL_THIS_IN` which is missing from LHS
+## Error in anti_join(., album, by = "artist_name"): could not find function "anti_join"
 ```
 
 
@@ -184,12 +117,12 @@ time %>%
 
 
 ```r
-FILL_THIS_IN %>% 
-  FILL_THIS_IN(FILL_THIS_IN, by = "song")
+time %>% 
+  full_join(album, by = c("song", "artist_name"))
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'FILL_THIS_IN' not found
+## Error in full_join(., album, by = c("song", "artist_name")): could not find function "full_join"
 ```
 
 
@@ -203,13 +136,7 @@ fell <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/dat
 ```
 
 ```
-## Parsed with column specification:
-## cols(
-##   Film = col_character(),
-##   Race = col_character(),
-##   Female = col_integer(),
-##   Male = col_integer()
-## )
+## Error in read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Fellowship_Of_The_Ring.csv"): could not find function "read_csv"
 ```
 
 ```r
@@ -217,13 +144,7 @@ ttow <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/dat
 ```
 
 ```
-## Parsed with column specification:
-## cols(
-##   Film = col_character(),
-##   Race = col_character(),
-##   Female = col_integer(),
-##   Male = col_integer()
-## )
+## Error in read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Two_Towers.csv"): could not find function "read_csv"
 ```
 
 ```r
@@ -231,13 +152,7 @@ retk <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/dat
 ```
 
 ```
-## Parsed with column specification:
-## cols(
-##   Film = col_character(),
-##   Race = col_character(),
-##   Female = col_integer(),
-##   Male = col_integer()
-## )
+## Error in read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Return_Of_The_King.csv"): could not find function "read_csv"
 ```
 
 1. Combine these into a single tibble.
@@ -248,18 +163,7 @@ bind_rows(fell, ttow, retk)
 ```
 
 ```
-## # A tibble: 9 x 4
-##   Film                       Race   Female  Male
-##   <chr>                      <chr>   <int> <int>
-## 1 The Fellowship Of The Ring Elf      1229   971
-## 2 The Fellowship Of The Ring Hobbit     14  3644
-## 3 The Fellowship Of The Ring Man         0  1995
-## 4 The Two Towers             Elf       331   513
-## 5 The Two Towers             Hobbit      0  2463
-## 6 The Two Towers             Man       401  3589
-## 7 The Return Of The King     Elf       183   510
-## 8 The Return Of The King     Hobbit      2  2673
-## 9 The Return Of The King     Man       268  2459
+## Error in bind_rows(fell, ttow, retk): could not find function "bind_rows"
 ```
 
 2. Which races are present in "The Fellowship of the Ring" (`fell`), but not in any of the other ones?
@@ -272,8 +176,7 @@ fell %>%
 ```
 
 ```
-## # A tibble: 0 x 4
-## # … with 4 variables: Film <chr>, Race <chr>, Female <int>, Male <int>
+## Error in eval(lhs, parent, parent): object 'fell' not found
 ```
 
 
@@ -288,12 +191,7 @@ Let's use three set functions: `intersect`, `union` and `setdiff`. We'll work wi
 ```
 
 ```
-## # A tibble: 3 x 2
-##   x1       x2
-##   <chr> <int>
-## 1 A         1
-## 2 B         2
-## 3 C         3
+## Error in tibble(x1 = LETTERS[1:3], x2 = 1:3): could not find function "tibble"
 ```
 
 
@@ -302,12 +200,7 @@ Let's use three set functions: `intersect`, `union` and `setdiff`. We'll work wi
 ```
 
 ```
-## # A tibble: 3 x 2
-##   x1       x2
-##   <chr> <int>
-## 1 B         2
-## 2 C         3
-## 3 D         4
+## Error in tibble(x1 = c("B", "C", "D"), x2 = 2:4): could not find function "tibble"
 ```
 
 1. Rows that appear in both `y` and `z`
@@ -318,11 +211,7 @@ intersect(y, z)
 ```
 
 ```
-## # A tibble: 2 x 2
-##   x1       x2
-##   <chr> <int>
-## 1 B         2
-## 2 C         3
+## Error in as.vector(y): object 'z' not found
 ```
 
 ```r
@@ -340,15 +229,7 @@ bind_rows(
 ```
 
 ```
-## # A tibble: 6 x 3
-##   x1       x2 day  
-##   <chr> <int> <chr>
-## 1 A         1 Day 1
-## 2 B         2 Day 1
-## 3 C         3 Day 1
-## 4 B         2 Day 2
-## 5 C         3 Day 2
-## 6 D         4 Day 2
+## Error in bind_rows(mutate(y, day = "Day 1"), mutate(z, day = "Day 2")): could not find function "bind_rows"
 ```
 
 3. The rows contained in `z` are bad! Remove those rows from `y`.
@@ -359,10 +240,7 @@ setdiff(y, z)
 ```
 
 ```
-## # A tibble: 1 x 2
-##   x1       x2
-##   <chr> <int>
-## 1 A         1
+## Error in as.vector(x): object 'y' not found
 ```
 
 ```r
@@ -370,12 +248,5 @@ anti_join(y, z)
 ```
 
 ```
-## Joining, by = c("x1", "x2")
-```
-
-```
-## # A tibble: 1 x 2
-##   x1       x2
-##   <chr> <int>
-## 1 A         1
+## Error in anti_join(y, z): could not find function "anti_join"
 ```

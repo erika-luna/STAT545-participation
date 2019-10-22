@@ -1,5 +1,6 @@
 ---
 title: "cm012 Exercises: Factors"
+author: Erika Luna
 output: 
   html_document:
     keep_md: true
@@ -8,12 +9,10 @@ output:
 
 ```{r allow errors, echo = FALSE}
 knitr::opts_chunk$set(error = TRUE)
-```
-
-```{r}
-library(ggplot2)
 library(gapminder)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(forcats)
 ```
 
 
@@ -36,13 +35,13 @@ Function `case_when()` is a tidier way to vectorise multiple `if_else()` stateme
 ```{r}
 gapminder %>% 
   filter(year == 1997) %>% 
-  mutate(life_level = case_when(lifeExp < 23 ~ "very low",
+  mutate(life_level = case_when(lifeExp < 23 ~ "very low",  #Assigns a string depending on the case (like in QGIS).
                                 lifeExp < 48 ~ "low",
                                 lifeExp < 59 ~ "moderate",
                                 lifeExp < 70 ~ "high",
                                 TRUE ~ "very high")) %>% 
-  ggplot() + geom_boxplot(aes(x = life_level, y = gdpPercap)) +
-  labs(y = "GDP per capita, $", x= "Life expectancy level, years") +
+  ggplot() + geom_boxplot(aes(x = life_level, y = gdpPercap)) + #Then we plot
+  labs(y = "GDP per capita, $", x= "Life expectancy level, years") + #Add labels
   theme_bw() 
 ```
 
@@ -65,7 +64,7 @@ gapminder %>%
                                 lifeExp < 59 ~ "moderate",
                                 lifeExp < 70 ~ "high",
                                 TRUE ~ "very high") ,
-                      levels = c("very low", "low", "moderate", "high", "very high"))) %>%
+                      levels = c("very low", "low", "moderate", "high", "very high"))) %>% #we add levels in order to display our values in the correct order, from very low, to very high.
   ggplot() + geom_boxplot(aes(x = life_level, y = gdpPercap)) +
   labs(y = "GDP per capita, $", x= "Life expectancy level, years") +
   scale_x_discrete(drop=FALSE) +
@@ -85,11 +84,10 @@ Use functions such as `str()`, `levels()`, `nlevels()` and `class()` to answer t
 - What integer is used to represent factor "Asia"?
 
 ```{r}
-str(gapminder$continent)
-levels(gapminder$continent)
-nlevels(gapminder$continent)
-class(gapminder$continent)
-
+str(gapminder$continent) #It tells us what kind of variable is continent, how many levels it contains, and the value of each level. 
+levels(gapminder$continent) #It tells us the value for each level.
+nlevels(gapminder$continent) #It tells us how many levles continent has.
+class(gapminder$continent) #It tells us the class of our variable. 
 ```
 
 ### Exploring `gapminder$country` (activity 2.2)
@@ -103,21 +101,23 @@ Answer the following questions:
 
 ```{r}
 
-nlevels(gapminder$country)
+nlevels(gapminder$country) #to see how many levels are in country.
 
 filtered <- gapminder %>% 
   filter(country == "Canada" | country == "Mexico" | country == "Brazil" |
-           country == "Spain" | country == "Portugal")
+           country == "Spain" | country == "Portugal") #We filter our dataset to display only these countries. 
 
 filtered$country %>% 
-  nlevels()
-
+  nlevels()  #How many levels our filtered dataset has. 
+ 
 h_countries = c("Egypt", "Haiti", "Romania", "Thailand", "Venezuela")
 gap = gapminder %>% 
-  filter(country %in% h_countries)
+  filter(country %in% h_countries)  #another way to filter. 
 
 gap$country %>% 
   nlevels()
+
+
 
 
 ```
@@ -129,11 +129,8 @@ What if we want to get rid of some levels that are "unused" - how do we do that?
 The function `droplevels()` operates on all the factors in a data frame or on a single factor. The function `forcats::fct_drop()` operates on a factor.
 
 ```{r}
-h_gap_dropped <- gap %>% 
-  droplevels()
-
-
-
+h_gap_dropped <- gap %>% #drops levels from gap
+  droplevels() 
 ```
 
 ## Changing the order of levels
@@ -144,7 +141,7 @@ We should first produce a frequency table as a tibble using `dplyr::count()`:
 
 ```{r}
 gapminder %>% 
-  count(continent)
+  count(continent) #Number of observations for each level within continent. 
 ```
 
 The table is nice, but it would be better to visualize the data.
@@ -155,7 +152,7 @@ So let's first plot this:
 gapminder %>%
   ggplot() +
   geom_bar(aes(continent)) +
-  coord_flip() +
+  coord_flip() + #to flip our axis.
   theme_bw() +
   ylab("Number of entries") + xlab("Continent")
 ```
@@ -174,7 +171,7 @@ For instance ,
 ```{r}
 gapminder %>%
   ggplot() +
-  geom_bar(aes(fct_infreq(continent))) +
+  geom_bar(aes(fct_infreq(continent))) +  #same of above but in descending order.
   coord_flip()+
   theme_bw() +
   ylab("Number of entries") + xlab("Continent")
@@ -198,13 +195,7 @@ gapminder %>%
 
 Use `fct_reorder2()` when you have a line chart of a quantitative x against another quantitative y and your factor provides the color. 
 
-```{r}
-## order by life expectancy 
-ggplot(h_gap, aes(x = year, y = lifeExp,
-                  color = FILL_IN_THIS)) +
-  geom_line() +
-  labs(color = "country")
-```
+
 
 ## Change order of the levels manually
 

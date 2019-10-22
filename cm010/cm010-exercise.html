@@ -10,6 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Erika Luna" />
 
 
 <title>cm010 Exercises: Tibble Joins</title>
@@ -177,6 +178,7 @@ summary {
 
 
 <h1 class="title toc-ignore">cm010 Exercises: Tibble Joins</h1>
+<h4 class="author">Erika Luna</h4>
 
 </div>
 
@@ -187,6 +189,7 @@ summary {
 <pre><code>install.packages(&quot;devtools&quot;)
 devtools::install_github(&quot;JoeyBernhardt/singer&quot;)</code></pre>
 <p>Load required packages:</p>
+<pre><code>## Warning: package 'ggplot2' was built under R version 3.5.2</code></pre>
 <!---The following chunk allows errors when knitting--->
 </div>
 <div id="exercise-1-singer" class="section level2">
@@ -194,7 +197,96 @@ devtools::install_github(&quot;JoeyBernhardt/singer&quot;)</code></pre>
 <p>The package <code>singer</code> comes with two smallish data frames about songs. Let’s take a look at them (after minor modifications by renaming and shuffling):</p>
 <pre class="r"><code>(time &lt;- as_tibble(songs) %&gt;% 
    rename(song = title))</code></pre>
-<p>``` ## # A tibble: 22 x 3 ## song artist_name year ## <chr> <chr> <int> ## 1 Corduroy Pearl Jam 1994 ## 2 Grievance Pearl Jam 2000 ## 3 Stupidmop Pearl Jam 1994 ## 4 Present Tense Pearl Jam 1996 ## 5 MFC Pearl Jam 1998 ## 6 Lukin Pearl Jam 1996 ## 7 It’s Lulu The Boo Radleys 1995 ## 8 Sparrow The Boo Radleys 1992 ## 9 Martin_ Doom! It’s Seven O’Clock The Boo Radleys 1995 ## 10 Leaves And Sand The Boo Radleys 1993 ## #</p>
+<pre><code>## Error in as_tibble(songs): could not find function &quot;as_tibble&quot;</code></pre>
+<pre class="r"><code>(album &lt;- as_tibble(locations) %&gt;% 
+   select(title, everything()) %&gt;% 
+   rename(album = release,
+          song  = title))</code></pre>
+<pre><code>## Error in as_tibble(locations): could not find function &quot;as_tibble&quot;</code></pre>
+<ol style="list-style-type: decimal">
+<li>We really care about the songs in <code>time</code>. But, which of those songs do we know its corresponding album?</li>
+</ol>
+<pre class="r"><code>time %&gt;% 
+  semi_join(album, by = c(&quot;song&quot;, &quot;artist_name&quot;))</code></pre>
+<pre><code>## Error in semi_join(., album, by = c(&quot;song&quot;, &quot;artist_name&quot;)): could not find function &quot;semi_join&quot;</code></pre>
+<pre class="r"><code>time %&gt;% 
+  inner_join(album, by = c(&quot;song&quot;, &quot;artist_name&quot;))</code></pre>
+<pre><code>## Error in inner_join(., album, by = c(&quot;song&quot;, &quot;artist_name&quot;)): could not find function &quot;inner_join&quot;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Go ahead and add the corresponding albums to the <code>time</code> tibble, being sure to preserve rows even if album info is not readily available.</li>
+</ol>
+<pre class="r"><code>time %&gt;% 
+  left_join(album, by = c(&quot;song&quot;, &quot;artist_name&quot;))</code></pre>
+<pre><code>## Error in left_join(., album, by = c(&quot;song&quot;, &quot;artist_name&quot;)): could not find function &quot;left_join&quot;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Which songs do we have “year”, but not album info?</li>
+</ol>
+<pre class="r"><code>time %&gt;% 
+  semi_join(album, by = &quot;song&quot;)</code></pre>
+<pre><code>## Error in semi_join(., album, by = &quot;song&quot;): could not find function &quot;semi_join&quot;</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Which artists are in <code>time</code>, but not in <code>album</code>?</li>
+</ol>
+<pre class="r"><code>time %&gt;% 
+  anti_join(album, by = &quot;artist_name&quot;)</code></pre>
+<pre><code>## Error in anti_join(., album, by = &quot;artist_name&quot;): could not find function &quot;anti_join&quot;</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>You’ve come across these two tibbles, and just wish all the info was available in one tibble. What would you do?</li>
+</ol>
+<pre class="r"><code>time %&gt;% 
+  full_join(album, by = c(&quot;song&quot;, &quot;artist_name&quot;))</code></pre>
+<pre><code>## Error in full_join(., album, by = c(&quot;song&quot;, &quot;artist_name&quot;)): could not find function &quot;full_join&quot;</code></pre>
+</div>
+<div id="exercise-2-lotr" class="section level2">
+<h2>Exercise 2: LOTR</h2>
+<p>Load in the three Lord of the Rings tibbles that we saw last time:</p>
+<pre class="r"><code>fell &lt;- read_csv(&quot;https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Fellowship_Of_The_Ring.csv&quot;)</code></pre>
+<pre><code>## Error in read_csv(&quot;https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Fellowship_Of_The_Ring.csv&quot;): could not find function &quot;read_csv&quot;</code></pre>
+<pre class="r"><code>ttow &lt;- read_csv(&quot;https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Two_Towers.csv&quot;)</code></pre>
+<pre><code>## Error in read_csv(&quot;https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Two_Towers.csv&quot;): could not find function &quot;read_csv&quot;</code></pre>
+<pre class="r"><code>retk &lt;- read_csv(&quot;https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Return_Of_The_King.csv&quot;)</code></pre>
+<pre><code>## Error in read_csv(&quot;https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Return_Of_The_King.csv&quot;): could not find function &quot;read_csv&quot;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Combine these into a single tibble.</li>
+</ol>
+<pre class="r"><code>bind_rows(fell, ttow, retk)</code></pre>
+<pre><code>## Error in bind_rows(fell, ttow, retk): could not find function &quot;bind_rows&quot;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Which races are present in “The Fellowship of the Ring” (<code>fell</code>), but not in any of the other ones?</li>
+</ol>
+<pre class="r"><code>fell %&gt;% 
+  anti_join(ttow, by = &quot;Race&quot;) %&gt;% 
+  anti_join(retk, by = &quot;Race&quot;)</code></pre>
+<pre><code>## Error in eval(lhs, parent, parent): object 'fell' not found</code></pre>
+</div>
+<div id="exercise-3-set-operations" class="section level2">
+<h2>Exercise 3: Set Operations</h2>
+<p>Let’s use three set functions: <code>intersect</code>, <code>union</code> and <code>setdiff</code>. We’ll work with two toy tibbles named <code>y</code> and <code>z</code>, similar to Data Wrangling Cheatsheet</p>
+<pre class="r"><code>(y &lt;-  tibble(x1 = LETTERS[1:3], x2 = 1:3))</code></pre>
+<pre><code>## Error in tibble(x1 = LETTERS[1:3], x2 = 1:3): could not find function &quot;tibble&quot;</code></pre>
+<pre class="r"><code>(z &lt;- tibble(x1 = c(&quot;B&quot;, &quot;C&quot;, &quot;D&quot;), x2 = 2:4))</code></pre>
+<pre><code>## Error in tibble(x1 = c(&quot;B&quot;, &quot;C&quot;, &quot;D&quot;), x2 = 2:4): could not find function &quot;tibble&quot;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Rows that appear in both <code>y</code> and <code>z</code></li>
+</ol>
+<pre class="r"><code>intersect(y, z)</code></pre>
+<pre><code>## Error in as.vector(y): object 'z' not found</code></pre>
+<pre class="r"><code>#interjoin(y, z)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>You collected the data in <code>y</code> on Day 1, and <code>z</code> in Day 2. Make a data set to reflect that.</li>
+</ol>
+<pre class="r"><code>bind_rows(
+  mutate(y, day = &quot;Day 1&quot;),
+  mutate(z, day = &quot;Day 2&quot;)
+)</code></pre>
+<pre><code>## Error in bind_rows(mutate(y, day = &quot;Day 1&quot;), mutate(z, day = &quot;Day 2&quot;)): could not find function &quot;bind_rows&quot;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>The rows contained in <code>z</code> are bad! Remove those rows from <code>y</code>.</li>
+</ol>
+<pre class="r"><code>setdiff(y, z)</code></pre>
+<pre><code>## Error in as.vector(x): object 'y' not found</code></pre>
+<pre class="r"><code>anti_join(y, z)</code></pre>
+<pre><code>## Error in anti_join(y, z): could not find function &quot;anti_join&quot;</code></pre>
 </div>
 
 

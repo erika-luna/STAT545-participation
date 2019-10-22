@@ -1,5 +1,6 @@
 ---
 title: "cm010 Exercises: Tibble Joins"
+author: Erika Luna
 output: 
   html_document:
     keep_md: true
@@ -17,17 +18,20 @@ devtools::install_github("JoeyBernhardt/singer")
 
 Load required packages:
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(tidyverse)
+```{r allow errors, echo = FALSE}
+knitr::opts_chunk$set(error = TRUE)
 library(singer)
-knitr::opts_chunk$set(fig.width=4, fig.height=3, warning = FALSE, fig.align = "center")
+library(gapminder)
+library(ggplot2)
+library(forcats)
 ```
 
 <!---The following chunk allows errors when knitting--->
 
-```{r allow errors, echo = FALSE}
-knitr::opts_chunk$set(error = TRUE)
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(fig.width=4, fig.height=3, warning = FALSE, fig.align = "center")
 ```
+
 
 ## Exercise 1: `singer`
 

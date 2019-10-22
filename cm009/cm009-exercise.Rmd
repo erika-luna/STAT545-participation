@@ -1,7 +1,10 @@
 ---
-title: "cm009 Exercises: tidy data"
-output: html_notebook
-editor_options: 
+title: 'cm009 Exercises: tidy data'
+author: "Erika Luna"
+output:
+  html_document:
+    df_print: paged
+editor_options:
   chunk_output_type: inline
 ---
 
@@ -28,22 +31,24 @@ lotr
 
 1. Would you say this data is in tidy format?
 
+Yes, each column is a variable. 
+
 2. Widen the data so that we see the words spoken by each race, by putting race as its own column.
 
 ```{r}
 (lotr_wide <- lotr %>% 
-  pivot_wider(id_cols = c(-Race, -Words), 
-              names_from = Race, 
-              values_from = Words))
+  pivot_wider(id_cols = c(-Race, -Words), #We remove columns "Race" and "Words".
+              names_from = Race, #We take the name for our new columns from the "Race" column.
+              values_from = Words)) #We take the values for our new columns from the "Words" column.
 ```
 
 3. Re-lengthen the wide LOTR data from Question 2 above.
 
 ```{r}
-lotr_wide %>% 
-  pivot_longer(cols = c(-Film, -Gender), 
-               names_to  = "Race", 
-               values_to = "Words")
+lotr_wide %>%  #We will go back to where we started.
+  pivot_longer(cols = c(-Film, -Gender), #We change our columns except for these ones. 
+               names_to  = "Race", #We create a new column called Race.
+               values_to = "Words") #We create another new column called Words.
 ```
 
 ## Exercise 2: Multivariate Pivoting
@@ -52,23 +57,23 @@ Congratulations, you're getting married! In addition to the wedding, you've deci
 
 ```{r}
 guest %>% 
-  DT::datatable(rownames = FALSE)
+  DT::datatable(rownames = FALSE) #A data table from the "guest" dataset.
 ```
 
 1. Put "meal" and "attendance" as their own columns, with the events living in a new column.
 
 ```{r}
 (guest_long <- guest %>% 
-  pivot_longer(cols      = c(-party, -name), 
-               names_to  = c(".value", "event"),
-               names_sep = "_"))
+  pivot_longer(cols      = c(-party, -name), #We change everything but these two columns.
+               names_to  = c(".value", "event"), #A new column called "event", its value will come from the columns that we set in cols. 
+               names_sep = "_")) #The underscore that separates our variables. 
 ```
 
 2. Use `tidyr::separate()` to split the name into two columns: "first" and "last". Then, re-unite them with `tidyr::unite()`.
 
 ```{r}
 guest_long %>% 
-  separate(name, into = c("first", "last"), sep = " ") %>% 
+  separate(name, into = c("first", "last"), sep = " ") %>% #We type a space 
   unite(col = "name", first, last, sep = " ")
 ```
 
@@ -77,7 +82,7 @@ guest_long %>%
 ```{r}
 guest_long %>% 
   group_by(party) %>% 
-  summarize(all_pending = all(attendance == "PENDING"))
+  summarize(all_pending = all(attendance == "PENDING"))  #all will return logical values. 
 ```
 
 4. Which parties still have a "PENDING" status for all members for the wedding?
@@ -103,7 +108,7 @@ guest_long %>%
 
 ```{r}
 email %>% 
-  separate_rows(guest, sep = ", ")
+  separate_rows(guest, sep = ", ") #a comma and a space!
 ```
 
 

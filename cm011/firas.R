@@ -2,28 +2,28 @@ library("tidyverse")
 library("gapminder")
 
 gapminder
-write_csv(gapminder, "./gapminder.csv")
+write_csv(gapminder, "./gapminder.csv")  #we create a csv from the gapminder dataset.
 View(gapminder)
 
-gapminder_sum <- gapminder %>%
-  group_by(continent) %>% 
-  summarize(ave_lifeExp = mean(lifeExp))
+gapminder_sum <- gapminder %>%  #we create a new dataset from the gapminder dataset.
+  group_by(continent) %>%  
+  summarize(ave_lifeExp = mean(lifeExp)) #take the mean of life Exp for each continent.
 
 View(gapminder_sum)
-write_csv(gapminder_sum, './gapminder_sum.csv')
+write_csv(gapminder_sum, './gapminder_sum.csv') #We write a csv from our recently created dataset.
 
 View(gapminder_sum)
-write_csv(gapminder_sum, here::here('gapminder_sum.csv'))
+write_csv(gapminder_sum, here::here('gapminder_sum.csv')) #We use function here from package here to tell R where to store our new file.
 
-write_csv(gapminder_sum, here::here("gapminder_sum.csv")
+write_csv(gapminder_sum, here::here("gapminder_sum.csv")) 
           
-gapminder_sum %>% 
+gapminder_sum %>%  #We create a plot.
 ggplot(aes(x = continent,
            y = ave_lifeExp))+
   geom_point() +
   theme_bw()
 
-gapminder_csv <- read_csv("./gapminder_sum.csv")
+gapminder_csv <- read_csv("./gapminder_sum.csv") #Now we read the dataset we created. 
 View(gapminder_csv)
           
 ls()
