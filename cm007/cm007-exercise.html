@@ -199,11 +199,11 @@ suppressPackageStartupMessages(library(tsibble))</code></pre>
 <li>What’s the minimum life expectancy for each continent and each year? (b) Add the corresponding country to the tibble, too. (c) Arrange by min life expectancy.</li>
 </ol></li>
 </ol>
-<pre class="r"><code>gapminder %&gt;% 
-  group_by(continent, year) %&gt;% 
-  summarise(min_life = min(lifeExp),
-            country = country[lifeExp == min_life]) %&gt;% 
-  arrange(min_life)</code></pre>
+<pre class="r"><code>gapminder %&gt;%  #Our dataset
+  group_by(continent, year) %&gt;% #Our dataset grouped by variables continent and year
+  summarise(min_life = min(lifeExp), #Our grouped dataset summarized by minimum life expectancy; &quot;summarise&quot; is the same as &quot;summarize&quot;.
+            country = country[lifeExp == min_life]) %&gt;% #then we store our country variable into a new arrangement. 
+  arrange(min_life) #we finallly arrange our dataset by minimum life expectancy. </code></pre>
 <p>``` ## # A tibble: 60 x 4 ## # Groups: continent [5] ## continent year min_life country<br />
 ## <fct> <int> <dbl> <fct><br />
 ## 1 Africa 1992 23.6 Rwanda<br />

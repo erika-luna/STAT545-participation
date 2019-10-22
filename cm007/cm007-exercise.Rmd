@@ -25,11 +25,11 @@ This worksheet contains exercises aimed for practice with `dplyr`.
 1. (a) What's the minimum life expectancy for each continent and each year? (b) Add the corresponding country to the tibble, too. (c) Arrange by min life expectancy.
 
 ```{r}
-gapminder %>% 
-  group_by(continent, year) %>% 
-  summarise(min_life = min(lifeExp),
-            country = country[lifeExp == min_life]) %>% 
-  arrange(min_life)
+gapminder %>%  #Our dataset
+  group_by(continent, year) %>% #Our dataset grouped by variables continent and year
+  summarise(min_life = min(lifeExp), #Our grouped dataset summarized by minimum life expectancy; "summarise" is the same as "summarize".
+            country = country[lifeExp == min_life]) %>% #then we store our country variable into a new arrangement. 
+  arrange(min_life) #we finallly arrange our dataset by minimum life expectancy. 
 ```
 
 2. Calculate the growth in population since the first year on record _for each country_ by rearranging the following lines, and filling in the `FILL_THIS_IN`. Here's another convenience function for you: `dplyr::first()`. 
@@ -43,10 +43,10 @@ group_by(country) %>%
 ```
 
 ```{r}
-gapminder %>% 
-  group_by(country) %>% 
-  arrange(year) %>%
-  mutate(rel_growth = pop - first(pop)) %>% 
+gapminder %>% #Our dataset
+  group_by(country) %>% #Grouped by "country"
+  arrange(year) %>% #Arranged by year
+  mutate(rel_growth = pop - first(pop)) %>% #We add a new column called rel_growth where we calculate the growth of each year against the first year recorded.
   DT::datatable()
 ```
 
@@ -67,15 +67,19 @@ knitr::kable()
 ```
 
 ```{r}
-gapminder %>% 
-  group_by(country) %>% 
-  arrange(year) %>% 
-  mutate(inc_life_exp = difference(lifeExp)) %>% 
-  drop_na() %>% 
-  ungroup() %>% 
-  group_by(continent) %>% 
-  filter(inc_life_exp == min(inc_life_exp)) %>% 
-  arrange(inc_life_exp) %>% 
-  knitr::kable()
+gapminder %>% #Our dataset
+  group_by(country) %>% #grouped by country
+  arrange(year) %>%  #arranged by year
+  mutate(inc_life_exp = difference(lifeExp)) %>% #add a new column called "inc_life_exp" which will be the diference of lifeExp
+  drop_na() %>% #We leave out NA's (beacuse the first year cannot be compared)
+  ungroup() %>% #Then we ungroup
+  group_by(continent) %>% #And now we group again but this time by continent
+  filter(inc_life_exp == min(inc_life_exp)) %>%  #then we filter the dataset to display only the country within each continent with the minimum increase of life expectancy recorded. 
+  arrange(inc_life_exp) %>% #we arrange it by our new variable
+  knitr::kable() 
   
 ```
+
+Australia and Rwanda are both presented on the table, however notice that at the difference is quite big between the countries. 
+
+
