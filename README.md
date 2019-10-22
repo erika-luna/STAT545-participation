@@ -10,7 +10,7 @@ The following links will take you to the worksheet for each class:
 - Class meeting 3:
   - [Slides](https://erika-luna.github.io/STAT545-participation/cm003/rmd_exploration-slides.html)
   - [Rmd exploration](https://erika-luna.github.io/STAT545-participation/cm003/rmd_exploration.html)
-- [Class meeting 5](https://erika-luna.github.io/STAT545-participation/cm005)
+- [Class meeting 5](https://erika-luna.github.io/STAT545-participation/cm005/cm005-exercise.html)
 - [Class meeting 6](https://erika-luna.github.io/STAT545-participation/cm006/cm006-exercise.nb.html)
 - [Class meeting 7](https://erika-luna.github.io/STAT545-participation/cm007/cm007-exercise.html)
 - [Class meeting 8](https://erika-luna.github.io/STAT545-participation/cm008/cm008-exercise.html)
