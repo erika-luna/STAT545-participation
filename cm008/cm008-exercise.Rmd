@@ -1,5 +1,6 @@
 ---
 title: "cm008 Exercises: Fix the Plots"
+author: Erika Luna
 output: 
   html_document:
     keep_md: true
@@ -20,6 +21,7 @@ library(tidyverse)
 library(gapminder)
 library(ggridges)
 library(scales)
+library(ggplot2)
 ```
 
 <!---The following chunk allows errors when knitting--->
@@ -34,11 +36,11 @@ knitr::opts_chunk$set(error = TRUE, warning = FALSE)
 After fixing the error, fix the overlapping problem in the following plot (attribution: ["R for data science"](https://r4ds.had.co.nz/data-visualisation.html)).
 
 ```{r, fig.width = 5, fig.height = 2}
-ggplot(mpg, aes(cty, hwy)) +
+ggplot(mpg, aes(cty, hwy)) + #Plot dataset mpg, x=cty, y=hwy.
   #geom_point()
-  geom_jitter(alpha = 0.5, size = 1) +
-  geom_smooth(method = 'lm') +
-  theme_light()
+  geom_jitter(alpha = 0.5, size = 1) + #geom_jitter is useful when we want to avoid overplotting.
+  geom_smooth(method = 'lm') + #adds a regression line
+  theme_light() 
 ```
 
 
@@ -47,11 +49,11 @@ ggplot(mpg, aes(cty, hwy)) +
 Fix this plot so that it shows life expectancy over time _for each country_. Notice that `ggplot2` ignores the grouping of a tibble!
 
 ```{r, fig.width = 5, fig.height = 2}
-gapminder %>% 
+gapminder %>%  
   #group_by(country) %>% 
-  ggplot(aes(year, lifeExp, group = country, color = country == 'Rwanda')) +
-  geom_line(alpha = 0.2) +
-  scale_color_discrete("", labels = c("Other", "Rwanda"))
+  ggplot(aes(year, lifeExp, group = country, color = country == 'Rwanda')) + #instead of grouping a tibble, we use group inside the ggplot aesthetics. We also asign a specific color to Rwanda.
+  geom_line(alpha = 0.2) + #alpha makes the lines more transparent. 
+  scale_color_discrete("", labels = c("Other", "Rwanda")) #Names the legend of our plot.
 ```
 
 
@@ -64,9 +66,9 @@ gapminder %>%
 
 ```{r, fig.width = 5, fig.height = 2}
 ggplot(gapminder, aes(gdpPercap, lifeExp)) +
-  geom_point(alpha = 0.2) +
-  scale_x_log10(labels = scales::comma_format()) +
-  facet_wrap(~ continent, scales = "free_y")
+  geom_point(alpha = 0.2) + 
+  scale_x_log10(labels = scales::comma_format()) + #by calling "scales" package, we use use comma_format function.
+  facet_wrap(~ continent, scales = "free_y") #To display the plots of each continent. scale is different for each plot depending on its own data. 
 ```
 
 ### 3(b) Bubble Plot
@@ -78,12 +80,12 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
 
 ```{r, fig.width = 8, fig.height = 2}
 gapminder %>% 
-  filter(continent != "Oceania") %>% 
-  ggplot(aes(gdpPercap, lifeExp, size = pop, fill = continent)) +
-  facet_wrap(~ continent, nrow = 1) +
-  geom_point(alpha = 0.5, shape = 21) +
-  scale_x_log10(labels = scales::comma_format()) +
-  scale_size_area()
+  filter(continent != "Oceania") %>%  #We remove Oceania from our dataset.
+  ggplot(aes(gdpPercap, lifeExp, size = pop, fill = continent)) + #The size of the points will change based on population. The color of the points will change based on the continent.
+  facet_wrap(~ continent, nrow = 1) + #To display all of our plots into a single row. 
+  geom_point(alpha = 0.5, shape = 21) + #The kind of figure we'd like to display our data, for this case are circles. 
+  scale_x_log10(labels = scales::comma_format()) + #The x axis uses a comma for each label.
+  scale_size_area() 
 ```
 
 A list of shapes can be found [at the bottom of the `scale_shape` documentation](https://ggplot2.tidyverse.org/reference/scale_shape.html).
